@@ -62,11 +62,11 @@ def enviar_mensagem():
                     s.connect(("localhost", porta))
                     with lock:
                         clock += 1
-                        mensagem = f"P2:{clock}"  # ou P3 no processo 3
+                        mensagem = f"P2:{clock}"  
                         s.sendall(mensagem.encode())
                         registrar_evento("envio", porta - 5000)
             except Exception as e:
-                log(f"[P2] Erro ao enviar para porta {porta}: {e}")  # Ou P3 no processo 3
+                log(f"[P2] Erro ao enviar para porta {porta}: {e}")  
 
 
 def tratar_marcador(origem):
