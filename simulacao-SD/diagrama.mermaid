@@ -1,0 +1,38 @@
+sequenceDiagram
+    autonumber
+    participant P1
+    participant P2
+    participant P3
+
+    Note over P1: Relógio e contador iniciam em 0
+
+    P1->>P2: P1 envia mensagem (clock incrementado)
+    P2->>P3: P2 envia mensagem (clock atualizado)
+    P3->>P1: P3 envia mensagem (clock atualizado)
+
+    P1-->>P1: Evento interno (clock++)
+    P2-->>P2: Evento interno (clock++)
+    P3-->>P3: Evento interno (clock++)
+
+    P1->>P2: MARKER (inicia snapshot)
+    P1->>P3: MARKER
+
+    alt P2 recebe marcador primeiro
+        P2-->>P2: Salva estado local (clock, contador)
+        P2->>P1: MARKER
+        P2->>P3: MARKER
+    end
+
+    alt P3 recebe marcador
+        P3-->>P3: Salva estado local (clock, contador)
+        P3->>P1: MARKER
+        P3->>P2: MARKER
+    end
+
+    alt P1 recebe marcadores de P2 e P3
+        P1-->>P1: Salva estado local (clock, contador)
+    end
+
+    Note over P1 P2 P3: Mensagens em trânsito são registradas entre o recebimento e envio do marcador
+
+    Note over P1 P2 P3: Snapshot completo - estados locais e mensagens em trânsito
