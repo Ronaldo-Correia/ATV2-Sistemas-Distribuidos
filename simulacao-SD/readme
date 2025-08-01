@@ -1,0 +1,6 @@
+cd /d "local da pasta"
+
+e em cada terminal execute
+python processo1.py
+python processo2.py
+python processo3.py
